@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -109,10 +108,10 @@ public class DemoCameraActivity extends BaseActivity<ActivityDemoCameraBinding, 
 
         model.videoCaptureEnabled.setValue(false);
 
-        H264Recording curAnyCameraRecording = h264Recording;
-        if (curAnyCameraRecording != null) {
+        H264Recording curH264Recording = h264Recording;
+        if (curH264Recording != null) {
             // Stop the current recording session.
-            curAnyCameraRecording.stop();
+            curH264Recording.stop();
             h264Recording = null;
             return;
         }
@@ -130,9 +129,9 @@ public class DemoCameraActivity extends BaseActivity<ActivityDemoCameraBinding, 
                 .Builder(getContentResolver(), MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
                 .setContentValues(contentValues)
                 .build();
-        H264PendingRecording anyCameraPendingRecording = videoCapture.getOutput()
+        H264PendingRecording h264PendingRecording = videoCapture.getOutput()
                 .prepareRecording(this, mediaStoreOutputOptions);
-        h264Recording = anyCameraPendingRecording
+        h264Recording = h264PendingRecording
                 .start(ContextCompat.getMainExecutor(this), new Consumer<VideoRecordEvent>() {
                     @Override
                     public void accept(VideoRecordEvent videoRecordEvent) {
